@@ -1,0 +1,6 @@
+.show-menu {
+    transform: translateX(0);
+}
+.hide-menu {
+    transform: translateX(-100%);
+}

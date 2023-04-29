@@ -1,24 +1,35 @@
 import Link from "next/link"
-import { FiShoppingCart } from "react-icons/fi"
+import { FiShoppingCart, FiMenu, FiX } from "react-icons/fi"
 import { Avatar, Button } from "@mantine/core"
+import { useState } from "react"
 
 export default function Navbar () {
+
+    const [showMenu, setShowMenu] = useState(false)
+    
+    const toggleMenu = (value) => {
+        setShowMenu(value)
+    }
+
     return (
         <>
-            <div className="flex justify-between items-center py-3 px-6">
+            <div className="flex justify-between items-center py-3 px-6 sticky top-0 bg-white z-10">
                 <div>
-                    <h4>CHAPART</h4>
+                    <h4>PIXHIBIT</h4>
                 </div>
-                <div>
+                <div className="lg:block md:block hidden">
                     <ul className="flex items-center list-none text-[12px] font-semibold">
                         <li className="mr-4">
                             <Link href="/" className="text-black no-underline">HOME</Link>
                         </li>
                         <li className="mr-4">
-                            <Link href="/" className="text-black no-underline">SHOP</Link>
+                            <Link href="/shop" className="text-black no-underline">SHOP</Link>
                         </li>
                         <li className="mr-4">
                             <Link href="/" className="text-black no-underline">ABOUT</Link>
+                        </li>
+                        <li className="mr-4">
+                            <Link href="/" className="text-black no-underline">SPOTLIGHT</Link>
                         </li>
                         <li className="mr-4">
                             <Link href="/" className="text-black no-underline">CONTACT</Link>
@@ -40,6 +51,24 @@ export default function Navbar () {
                             </Link>
                         </li> */}
                     </ul>
+                </div>
+                <div className="lg:hidden md:hidden block">
+                    <div>
+                        <span onClick={() => toggleMenu(true)} className="cursor-pointer"><FiMenu className="text-[20px]" /></span>
+                    </div>
+                </div>
+            </div>
+
+            <div className={`${showMenu ? "show-menu" : "hide-menu"} h-[100vh] ease-in-out flex flex-col transition-all duration-300 w-full fixed top-0 left-0 bg-white z-20`}>
+                <div className="flex justify-between items-center py-3 px-6">
+                    <div>
+                        <h4>PIXHIBIT</h4>
+                    </div>
+                    <div>
+                        <span onClick={() => toggleMenu(false)} className="cursor-pointer">
+                            <FiX className="text-[20px]" />
+                        </span>
+                    </div>
                 </div>
             </div>
         </>

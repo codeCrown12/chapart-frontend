@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/components/navbar.css'
 import { MantineProvider } from '@mantine/core'
 import RouterTransition from '../components/RouterTransition'
 import { Raleway } from 'next/font/google'
