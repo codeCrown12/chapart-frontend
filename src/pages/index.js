@@ -7,7 +7,7 @@ import Image from "next/image"
 import "swiper/css"
 import "swiper/css/navigation"
 import bannerImg from "../images/banner-img.png"
-import flagImg from "../images/flag.png"
+import flagImg from "../images/flag-img.png"
 
 
 export default function Home() {
@@ -36,14 +36,14 @@ export default function Home() {
       <Navbar/>
 
       <section>
-        <div className="grid grid-cols-2 gap-20 h-[600px] items-center">
+        <div className="grid grid-cols-2 gap-0 h-[600px] items-center">
           <div className="overflow-y-hidden h-full">
-            <Image className="h-full w-full object-cover" src={bannerImg}/>
+            <Image className="h-full w-full object-contain" src={bannerImg}/>
           </div>
           <div className="lg:pr-10">
             <div className="flex items-center">
               <div className="mr-4"><Image className="h-[60px] w-[60px]" src={flagImg} /></div>
-              <div className="flex items-center"><p>Based in Nigeria</p> <div className="w-[100px] h-[2px] bg-black ml-2"></div> </div>
+              <div className="flex items-center"><p>Based in Nigeria</p> <div className="w-[60px] h-[2px] bg-black ml-2"></div> </div>
             </div>
             <div className="my-8"><h1 className="text-[5em] leading-[6rem]">Buy/Sell Beautiful Art.</h1></div>
             <div>

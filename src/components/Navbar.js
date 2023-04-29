@@ -13,7 +13,7 @@ export default function Navbar () {
 
     return (
         <>
-            <div className="flex justify-between items-center py-3 px-6 sticky top-0 bg-white z-10">
+            <div className="flex justify-between items-center py-4 px-8 sticky top-0 bg-white z-10">
                 <div>
                     <h4>PIXHIBIT</h4>
                 </div>
@@ -35,10 +35,14 @@ export default function Navbar () {
                             <Link href="/" className="text-black no-underline">CONTACT</Link>
                         </li>
                         <li className="mr-2">
-                            <Button size="xs" variant="default">SIGN IN</Button>
+                            <Link href="/auth/login">
+                                <Button href="/auth/login" size="xs" variant="default">SIGN IN</Button>
+                            </Link>
                         </li>
                         <li>
-                            <Button size="xs" variant="filled">CREATE ACCOUNT</Button>
+                            <Link href="/auth/signup">
+                                <Button size="xs" variant="filled">CREATE ACCOUNT</Button>
+                            </Link>
                         </li>
                         {/* <li className="mr-4">
                             <Link href="/" className="text-black no-underline">

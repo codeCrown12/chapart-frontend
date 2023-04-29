@@ -24,6 +24,13 @@ export default function App({ Component, pageProps }) {
                   boxShadow: '0px 10px 8px -5px rgba(0, 0, 0, 0.06)'
                 }
               })
+            },
+            Input: {
+              styles: (theme) => ({
+                root: {
+                  borderRadius: '0'
+                }
+              })
             }
           },
           colorScheme: 'light',
