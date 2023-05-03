@@ -43,7 +43,7 @@ export default function Home() {
           <div className="lg:pr-10">
             <div className="flex items-center">
               <div className="mr-4"><Image className="h-[60px] w-[60px]" src={flagImg} /></div>
-              <div className="flex items-center"><p>Based in Nigeria</p> <div className="w-[60px] h-[2px] bg-black ml-2"></div> </div>
+              <div className="flex items-center"><p>For Nigerian artists</p> <div className="w-[60px] h-[2px] bg-black ml-2"></div> </div>
             </div>
             <div className="my-8"><h1 className="text-[5em] leading-[6rem]">Buy/Sell Beautiful Art.</h1></div>
             <div>

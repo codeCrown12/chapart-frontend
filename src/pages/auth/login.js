@@ -7,7 +7,7 @@ import { Cedarville_Cursive } from 'next/font/google'
 const cedarville = Cedarville_Cursive({ 
     subsets: ['latin'],
     weight: '400'
-  })
+})
 
 export default function Login() {
 
@@ -21,7 +21,7 @@ export default function Login() {
                     <div className="h-full overflow-y-hidden">
                         <Image className="w-full h-full object-cover" src={loginImg}></Image>
                     </div>
-                    <div>
+                    <div className="overflow-y-auto">
                         <div className="w-[65%] mx-auto">
                             <div className="mb-4">
                                 <h1 className={`${cedarville.className} text-[2.6em] italic text-center`}>Sign In</h1>
@@ -34,18 +34,19 @@ export default function Login() {
                             </div>
                             <div className="mt-4">
                                 <PasswordInput
+                                    
                                     size="md"
                                     placeholder="Enter password"
                                 />
                             </div>
-                            <div className="mt-2 text-right text-[14px]">
-                                <Link href="/" className="text-black">Forgot password?</Link>
+                            <div className="mt-2 text-right text-[15px]">
+                                <Link href="/auth/forgot_password" className="text-black">Forgot password?</Link>
                             </div>
                             <div className="mt-2">
                                 <Button fullWidth size="md" variant="filled">SIGN IN</Button>
                             </div>
-                            <div className="mt-4 text-center text-[14px]">
-                                <p>Don't have an account? <Link href="/" className="text-black">Create account</Link></p>
+                            <div className="mt-4 text-center text-[15px]">
+                                <p>Don't have an account? <Link href="/auth/signup" className="text-black">Create account</Link></p>
                             </div>
                         </div>
                     </div>
