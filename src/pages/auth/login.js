@@ -3,6 +3,14 @@ import Image from "next/image"
 import { TextInput, PasswordInput, Button } from "@mantine/core"
 import Link from "next/link"
 import { Cedarville_Cursive } from 'next/font/google'
+import { z } from "zod"
+import { useForm, zodResolver } from "@mantine/form"
+import { httpEntry } from "@/services/axios.service"
+import { useRouter } from "next/router"
+import { useState } from "react"
+import { parseError, showSuccess } from "@/services/notification.service"
+import { useDispatch } from "react-redux"
+import { loginUser } from "@/store/slices/authSlice"
 
 const cedarville = Cedarville_Cursive({ 
     subsets: ['latin'],
@@ -10,6 +18,42 @@ const cedarville = Cedarville_Cursive({
 })
 
 export default function Login() {
+
+    const schema = z.object({
+        email: z.string().email({ message: 'Invalid email address' }),
+        password: z.string().min(1, { message: 'Password is required' })
+    })
+
+    const form = useForm({
+        validate: zodResolver(schema),
+        initialValues: {
+            email: '',
+            password: ''
+        }
+    })
+
+    const [loading, setLoading] = useState(false)
+    const router = useRouter()
+    const dispatch = useDispatch()
+
+    const handleSubmit = (values) => {
+        setLoading(true)
+        const payload = values
+        httpEntry.post('/auth/login', payload).then(response => {
+            showSuccess('Login successful')
+            dispatch(loginUser({
+                userData: response.data.data.user,
+                userToken: response.data.data.token
+            }))
+            router.push('/')
+        }).catch(error => {
+            parseError(error)
+            if(error.response.data.error.toLowerCase() === 'email not verified') {
+                localStorage.setItem('email', payload.email)
+                router.push('/auth/verify')
+            }
+        }).finally(() => setLoading(false))
+    }
 
     return (
         <>
@@ -26,25 +70,28 @@ export default function Login() {
                             <div className="mb-4">
                                 <h1 className={`${cedarville.className} text-[2.6em] italic text-center`}>Sign In</h1>
                             </div>
-                            <div>
-                                <TextInput 
-                                    size="md"
-                                    placeholder="Enter email or username"
-                                />
-                            </div>
-                            <div className="mt-4">
-                                <PasswordInput
-                                    
-                                    size="md"
-                                    placeholder="Enter password"
-                                />
-                            </div>
-                            <div className="mt-2 text-right text-[15px]">
-                                <Link href="/auth/forgot_password" className="text-black">Forgot password?</Link>
-                            </div>
-                            <div className="mt-2">
-                                <Button fullWidth size="md" variant="filled">SIGN IN</Button>
-                            </div>
+                            <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+                                <div>
+                                    <TextInput 
+                                        size="md"
+                                        placeholder="Enter email address"
+                                        {...form.getInputProps('email')}
+                                    />
+                                </div>
+                                <div className="mt-4">
+                                    <PasswordInput
+                                        size="md"
+                                        placeholder="Enter password"
+                                        {...form.getInputProps('password')}
+                                    />
+                                </div>
+                                <div className="mt-2 text-right text-[15px]">
+                                    <Link href="/auth/forgot_password" className="text-black">Forgot password?</Link>
+                                </div>
+                                <div className="mt-2">
+                                    <Button type="submit" loading={loading} fullWidth size="md" variant="filled">SIGN IN</Button>
+                                </div>
+                            </form>
                             <div className="mt-4 text-center text-[15px]">
                                 <p>Don't have an account? <Link href="/auth/signup" className="text-black">Create account</Link></p>
                             </div>

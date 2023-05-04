@@ -2,7 +2,11 @@ import '../styles/globals.css'
 import '../styles/components/navbar.css'
 import { MantineProvider } from '@mantine/core'
 import RouterTransition from '../components/RouterTransition'
+import { Notifications } from '@mantine/notifications';
 import { Raleway } from 'next/font/google'
+import { store, persistor } from '../store/store'
+import { PersistGate } from 'redux-persist/integration/react'
+import { Provider } from 'react-redux'
 
 const raleway = Raleway({ 
   subsets: ['latin'] 
@@ -55,7 +59,12 @@ export default function App({ Component, pageProps }) {
         }}
       >
         <RouterTransition />
-        <Component {...pageProps} />
+        <Notifications position="top-center" zIndex={2077} />
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Component {...pageProps} />
+          </PersistGate>
+        </Provider>
       </MantineProvider>
     </main>
   )

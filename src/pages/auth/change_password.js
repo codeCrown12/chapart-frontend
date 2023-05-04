@@ -1,4 +1,4 @@
-import { TextInput, Button } from '@mantine/core' 
+import { PasswordInput, Button } from '@mantine/core' 
 import { Cedarville_Cursive } from 'next/font/google'
 import Link from 'next/link'
 import { z } from 'zod'
@@ -13,16 +13,18 @@ const cedarville = Cedarville_Cursive({
     weight: '400'
 })
 
-export default function ForgotPassword() {
+export default function ChangePassword () {
 
     const schema = z.object({
-        email: z.string().email({ message: 'Invalid email address' })
-    })
+        password: z.string().min(8, {message: 'Password should have at least 8 characters'}),
+        confirm_password: z.string().min(8, {message: 'Password should have at least 8 characters'})
+    }).refine(data => data.password === data.confirm_password, {message: "Password and Confirm Password do not match", path: ["confirm_password"]});
 
     const form = useForm({
         validate: zodResolver(schema),
         initialValues: {
-            email: ''
+            password: '',
+            confirm_password: ''
         }
     })
 
@@ -31,11 +33,16 @@ export default function ForgotPassword() {
 
     const handleSubmit = (values) => {
         setLoading(true)
-        const payload = values
-        httpEntry.post('/auth/get_token', payload).then(response => {
-            showSuccess('Token sent successfully to the email provided!')
-            localStorage.setItem('email', values.email)
-            router.push('/auth/verify?action=change_password')
+        const payload = {
+            email: localStorage.getItem('email'),
+            token: localStorage.getItem('token'),
+            password: values.password
+        }
+        httpEntry.put('/auth/change_password', payload).then(response => {
+            showSuccess('Password updated successfully!')
+            localStorage.removeItem('email')
+            localStorage.removeItem('token')
+            router.push('/auth/login')
         }).catch(error => {
             parseError(error)
         }).finally(() => setLoading(false))
@@ -53,10 +60,13 @@ export default function ForgotPassword() {
                     </div>
                     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
                         <div className='mb-4 mx-auto w-full'>
-                            <TextInput {...form.getInputProps('email')} placeholder='Enter email address' size='lg' />
+                            <PasswordInput {...form.getInputProps('password')} placeholder='Enter new password' size='lg' />
+                        </div>
+                        <div className='mb-4 mx-auto w-full'>
+                            <PasswordInput {...form.getInputProps('confirm_password')} placeholder='Confirm new password' size='lg' />
                         </div>
                         <div className='mb-4'>
-                            <Button type='submit' loading={loading} fullWidth size="md" variant="filled">RESET PASSWORD</Button>
+                            <Button type='submit' loading={loading} fullWidth size="md" variant="filled">CHANGE PASSWORD</Button>
                         </div>
                     </form>
                     <div className="mt-2 text-center text-[15px]">
