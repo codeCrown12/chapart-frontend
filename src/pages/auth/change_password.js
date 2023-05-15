@@ -51,19 +51,19 @@ export default function ChangePassword () {
     return (
         <>
             <div className="h-[100vh] w-full relative flex justify-center items-center">
-                <div className="w-[35%]">
+                <div className="w-[30%]">
                     <div className='flex justify-center mb-4'>
                         <div className='w-[80px] h-[80px] rounded-full bg-gray-900'></div>
                     </div>
                     <div className='mb-4'>
-                        <h1 className={`${cedarville.className} text-[2.6em] italic text-center`}>Forgot Password ?</h1>
+                        <h1 className={`${cedarville.className} text-[2em] italic text-center`}>Change Password</h1>
                     </div>
                     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
                         <div className='mb-4 mx-auto w-full'>
-                            <PasswordInput {...form.getInputProps('password')} placeholder='Enter new password' size='lg' />
+                            <PasswordInput {...form.getInputProps('password')} placeholder='Enter new password' size='md' />
                         </div>
                         <div className='mb-4 mx-auto w-full'>
-                            <PasswordInput {...form.getInputProps('confirm_password')} placeholder='Confirm new password' size='lg' />
+                            <PasswordInput {...form.getInputProps('confirm_password')} placeholder='Confirm new password' size='md' />
                         </div>
                         <div className='mb-4'>
                             <Button type='submit' loading={loading} fullWidth size="md" variant="filled">CHANGE PASSWORD</Button>

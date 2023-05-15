@@ -43,8 +43,7 @@ export default function Verify() {
                 router.push('/auth/change_password')
             }
             else {
-                localStorage.removeItem('email')
-                router.push('/auth/login')
+                router.push('/auth/account_type')
             }
         }).catch(error => {
             parseError(error)
@@ -60,7 +59,7 @@ export default function Verify() {
                         <div className='w-[80px] h-[80px] rounded-full bg-gray-900'></div>
                     </div>
                     <div className='mb-1'>
-                        <h1 className={`${cedarville.className} text-[2.6em] italic text-center`}>Verify Email</h1>
+                        <h1 className={`${cedarville.className} text-[2em] italic text-center`}>Verify Email</h1>
                     </div>
                     <div className='mb-6'>
                         <p className='text-center text-[15px]'>Provide the 6 digit pin sent to your email address.</p>

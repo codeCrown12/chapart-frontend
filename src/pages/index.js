@@ -1,25 +1,16 @@
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
-import { Button, Divider } from "@mantine/core"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper"
 import Image from "next/image"
 import "swiper/css"
 import "swiper/css/navigation"
 import bannerImg from "../images/banner-img.png"
 import flagImg from "../images/flag-img.png"
+import { Divider, Button } from "@mantine/core"
 
 
 export default function Home() {
-  const categoriesList = [0,1,2,3,4,5,6,7,8,9,10,11],
-  categoriesItems = categoriesList.map(item => 
-    <SwiperSlide tag="div" key={item}>
-      <div className="bg-gray-300 h-[200px]"></div>
-      <div className="text-center mt-2 text-[14px] font-semibold"><p>Category</p></div>
-    </SwiperSlide>
-  ),
-  artistsList = [0,1,2,3,4,5],
-  artistsItems = artistsList.map(artist => 
+  const artistsList = [0,1,2,3,4,5]
+  const artistsItems = artistsList.map(artist => 
     <div key={artist} className="h-[120px] flex" style={{ border: '1px solid #ccc' }}>
       <div className="w-[35%] bg-gray-300"></div>
       <div className="w-[65%] p-4 flex items-center">
@@ -30,101 +21,44 @@ export default function Home() {
       </div>
     </div>
   )
+
   return (
     <>
 
       <Navbar/>
 
       <section>
-        <div className="grid grid-cols-2 gap-20 h-[600px] items-center">
-          <div className="overflow-y-hidden h-full bg-gray-50">
-            <Image className="h-full w-full object-contain" src={bannerImg}/>
-          </div>
-          <div className="lg:pr-10">
-            <div className="flex items-center">
-              <div className="mr-4"><Image className="h-[60px] w-[60px]" src={flagImg} /></div>
-              <div className="flex items-center"><p>For Nigerian artists</p> <div className="w-[60px] h-[1px] bg-black ml-2"></div> </div>
+        <div className="relative">
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 lg:h-[100vh] h-fit overflow-y-auto items-center">
+            <div className="overflow-y-hidden h-full bg-gray-50 lg:block hidden">
+              <Image className="h-full w-full object-contain" src={bannerImg}/>
             </div>
-            <div className="my-8"><h1 className="text-[5em] leading-[6rem]">Buy/Sell Beautiful Art.</h1></div>
-            <div>
-              <p>Lorem ipsum dolor strud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <div className="px-5 py-10">
+              <div className="flex items-center">
+                <div className="mr-4"><Image className="h-[50px] w-[50px] object-cover" src={flagImg} /></div>
+                <div className="flex items-center"><p>Nigeria</p> <div className="w-[50px] h-[1px] bg-black ml-2"></div> </div>
+              </div>
+              <div className="my-4"><h1 className="text-[5em] leading-[6rem]">Buy/Sell Beautiful Art.</h1></div>
+              <div>
+                <p>Aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <div className="mt-6"><Button size="md">Explore Art &raquo;</Button></div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="my-20">
-        <div className="w-[90%] mx-auto">
+      <section className="my-10">
+        <div className="lg:w-[90%] lg:px-0 px-5 w-full mx-auto">
           <div className="mb-6">
-            <h2 className="font-semibold text-center">ART CATEGORIES</h2>
-            <Divider my="xs" label="Currently supported art categories" className="italic" labelPosition="center" />
+            <h2 className="font-semibold text-center">OUR ARTISTS</h2>
+            <Divider my="xs" label="Genius creators" className="italic" labelPosition="center" />
           </div>
-          <Swiper
-            breakpoints={{
-              0: {
-                slidesPerView: 1,
-              },
-              400:{
-                slidesPerView:2,
-              },
-              639: {
-                slidesPerView: 3,
-              },
-              865:{
-                slidesPerView:4
-              },
-              1000:{
-                slidesPerView:5
-              },
-              1500:{
-                slidesPerView:6
-              },
-              1700:{
-                slidesPerView:7
-              }
-            }}
-            modules={[Navigation]}
-            navigation
-            slidesPerView={5}
-            spaceBetween={10}
-            className="myswiper">
-            { categoriesItems }
-          </Swiper>
-        </div>
-      </section>
-
-      <section className="my-20">
-        <div className="w-[90%] mx-auto">
-          <div className="mb-6">
-            <h2 className="font-semibold text-center">TRENDING ARTWORKS</h2>
-            <Divider my="xs" label="The artworks our users love the most" className="italic" labelPosition="center" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-gray-300 h-[300px]"></div>
-            <div className="bg-gray-300 h-[300px]"></div>
-          </div>
-          <div className="grid grid-cols-3 gap-3 mt-3">
-            <div className="bg-gray-300 h-[300px]"></div>
-            <div className="bg-gray-300 h-[300px]"></div>
-            <div className="bg-gray-300 h-[300px]"></div>
-          </div>
-          <div className="flex justify-center mt-5">
-            <Button size="sm" variant="default">View All Products</Button>
-          </div>
-        </div>
-      </section>
-
-      <section className="my-20">
-        <div className="w-[90%] mx-auto">
-          <div className="mb-6">
-            <h2 className="font-semibold text-center">MEET THE ARTISTS</h2>
-            <Divider my="xs" label="The real show runners" className="italic" labelPosition="center" />
-          </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-3">
             { artistsItems }
           </div>
           <div className="flex justify-center mt-5">
-            <Button size="sm" variant="default">View All artists</Button>
+            <Button size="sm" variant="default">View More &raquo;</Button>
           </div>
         </div>
       </section>
