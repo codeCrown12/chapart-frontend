@@ -29,7 +29,7 @@ export default function Navbar () {
         <>
             <div className="flex justify-between items-center py-4 px-8 sticky top-0 bg-white/90 backdrop-blur-3xl z-10">
                 <div>
-                    <h4>PIXHIBIT</h4>
+                    <Link href="/" className="no-underline text-black"><h4>PIXHIBIT</h4></Link>
                 </div>
                 <div className="lg:block md:block hidden">
                     <ul className="flex items-center list-none text-[12px] font-semibold">
