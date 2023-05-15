@@ -53,14 +53,14 @@ export default function AccountType() {
                             <Radio size='md'
                                 label="I'm an artist"
                                 value="artist"
-                                description="You're a creator, and you're primarily here to share/sell unique artworks you created yourself."
+                                description="You're a creator, and you're primarily here to share unique artworks you created yourself."
                             />
                         </div>
                         <div className='rounded-[4px] mt-3 p-5 flex flex-row items-center' style={{ border: `1px solid ${value === 'enthusiast'? 'black': '#ccc'}`}}>
                             <Radio size='md'
                                 label="I'm an art enthusiast"
                                 value="enthusiast"
-                                description="You love art, and you're primarily here to collect/purchase beautiful artworks."
+                                description="You love art, and you're primarily here to view beautiful artworks and reach out to artists."
                             />
                         </div>
                     </Radio.Group>
