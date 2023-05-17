@@ -59,7 +59,7 @@ export default function App({ Component, pageProps }) {
         }}
       >
         <RouterTransition />
-        <Notifications position="top-center" zIndex={2077} />
+        <Notifications position="top-right" zIndex={2077} />
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <Component {...pageProps} />

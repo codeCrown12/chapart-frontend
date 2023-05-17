@@ -27,7 +27,7 @@ export default function Navbar () {
 
     return (
         <>
-            <div className="flex justify-between items-center py-4 px-8 sticky top-0 bg-white/90 backdrop-blur-3xl z-10">
+            <div className="flex justify-between items-center py-4 px-8 sticky top-0 glass-effect z-10">
                 <div>
                     <Link href="/" className="no-underline text-black"><h4>PIXHIBIT</h4></Link>
                 </div>
