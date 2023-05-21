@@ -47,7 +47,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="my-16">
+      <section className="my-20">
         <div className="lg:w-[90%] lg:px-0 px-5 w-full mx-auto">
           <div className="mb-6">
             <h2 className="font-semibold text-center">OUR ARTISTS</h2>
