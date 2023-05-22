@@ -18,3 +18,11 @@ export const showSuccess = (message) => {
         message: message,
     })
 }
+
+export const showInfo = (message) => {
+    notifications.show({
+        color: 'dark',
+        title: 'Info',
+        message: message,
+    })
+}

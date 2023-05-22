@@ -65,7 +65,7 @@ export default function Gallery ({ categories }) {
 
             <section className="my-10">
                 <div className="lg:w-[90%] lg:px-0 px-5 w-full mx-auto">
-                    <div className="flex items-center justify-between">
+                    <div className="lg:flex md:flex block items-center justify-between">
                         <div className="mr-2">
                             <SegmentedControl
                                 value={category}
@@ -76,6 +76,7 @@ export default function Gallery ({ categories }) {
                         <div className="w-[30%]">
                             <TextInput
                                 type="search"
+                                size="md"
                                 value={search}
                                 onChange={(event) => setSearch(event.currentTarget.value)}
                                 placeholder="search art..."

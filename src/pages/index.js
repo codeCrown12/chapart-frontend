@@ -30,7 +30,7 @@ export default function Home() {
         <div className="relative">
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 lg:h-[100vh] h-fit overflow-y-auto items-center">
             <div className="overflow-y-hidden h-full bg-gray-50 lg:block hidden">
-              <Image className="h-full w-full object-contain" src={bannerImg}/>
+              <Image alt="banner-image" className="h-full w-full object-contain" src={bannerImg}/>
             </div>
             <div className="px-5 py-10">
               <div className="flex items-center">
