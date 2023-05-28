@@ -103,7 +103,7 @@ export default function Upload({ categories }) {
                     description: values.description,
                     category_id: values.category,
                     specifications: specifications,
-                    is_signed: values.is_signed === "yes" ? true : false,
+                    is_signed: values.is_signed == "yes",
                     images: imageUrls
                 }
                 await http.post('/art/add', payload)
@@ -157,7 +157,7 @@ export default function Upload({ categories }) {
                             </>
                         ) : (
                             <>
-                                <form className="mt-5" onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+                                <form className="py-10" onSubmit={form.onSubmit((values) => handleSubmit(values))}>
                                     <h1 className="text-center mb-4">Upload your art!</h1>
                                     <div>
                                         <TextInput
