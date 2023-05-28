@@ -6,16 +6,24 @@ export const parseError = (error) => {
         notifications.show({
             color: 'red',
             title: 'Error',
-            message: errorMessage,
+            message: errorMessage
         })
     }
+}
+
+export const showError = (message) => {
+    notifications.show({
+        color: 'red',
+        title: 'Error',
+        message: message
+    })
 }
 
 export const showSuccess = (message) => {
     notifications.show({
         color: 'green',
         title: 'Success',
-        message: message,
+        message: message
     })
 }
 
@@ -23,6 +31,6 @@ export const showInfo = (message) => {
     notifications.show({
         color: 'dark',
         title: 'Info',
-        message: message,
+        message: message
     })
 }

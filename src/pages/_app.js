@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import '../styles/components/navbar.css'
+import '../styles/components/uploadArt.css'
 import { MantineProvider } from '@mantine/core'
 import RouterTransition from '../components/RouterTransition'
 import { Notifications } from '@mantine/notifications';
@@ -59,7 +60,7 @@ export default function App({ Component, pageProps }) {
         }}
       >
         <RouterTransition />
-        <Notifications position="bottom-right" zIndex={2077} />
+        <Notifications position="bottom-center" zIndex={2077} />
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <Component {...pageProps} />

@@ -9,6 +9,7 @@ import Image from 'next/image'
 import Empty from '../../images/no-data.svg'
 import { FiSearch } from 'react-icons/fi'
 import { capitalizeFirst } from '@/services/utils.service'
+import { Oval } from 'react-loader-spinner'
 
 export const getServerSideProps = async () => {
     const response = await httpEntry.get('/art/categories')
@@ -79,16 +80,19 @@ export default function Gallery ({ categories }) {
                                 size="md"
                                 value={search}
                                 onChange={(event) => setSearch(event.currentTarget.value)}
-                                placeholder="search art..."
+                                placeholder="search art title, description..."
                                 rightSection={<FiSearch/>}
                             />
                         </div>
                     </div>
-                    <div className="mt-5">
+                    <div className="mt-10">
                         { 
                             loading ? (
                                 <div className="flex justify-center items-center min-h-[300px]">
-                                    <Loader variant="dots" size="xl" />
+                                    <Oval 
+                                        color="#000"
+                                        secondaryColor="#ccc"
+                                    />
                                 </div>
                             ) : <DisplayArtWorks />
                         }

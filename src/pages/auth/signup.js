@@ -57,12 +57,12 @@ export default function SignUp() {
                 <div className="absolute top-0 right-0 py-4 px-8">
                     <Link href="/" className="no-underline text-black"><h4>PIXHIBIT</h4></Link>
                 </div>
-                <div className="h-[100vh] grid lg:grid-cols-2 gap-0 items-center">
-                    <div className="h-full overflow-y-hidden">
+                <div className="h-[100vh] grid lg:grid-cols-2 grid-cols-1 gap-0 items-center">
+                    <div className="h-full lg:block hidden overflow-y-hidden">
                         <Image alt="signup-bg" className="w-full h-full object-cover" src={signupImg}></Image>
                     </div>
                     <div className="overflow-y-auto">
-                        <div className="w-[65%] mx-auto">
+                        <div className="lg:w-[65%] md:w-[60%] w-[90%] mx-auto">
                             <div className="mb-4">
                                 <h1 className={`${cedarville.className} text-[2.6em] italic text-center`}>Sign Up</h1>
                             </div>

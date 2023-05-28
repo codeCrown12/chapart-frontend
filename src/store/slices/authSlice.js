@@ -17,11 +17,13 @@ export const authSlice = createSlice({
             state.userData = action.payload.userData
             state.userToken = action.payload.userToken
             state.isLoggedIn = true
+            localStorage.setItem("token", action.payload.userToken)
         },
         logoutUser: (state) => {
             state.userData = {}
             state.userToken = null
             state.isLoggedIn = false
+            localStorage.clear()
         }
     }
 })

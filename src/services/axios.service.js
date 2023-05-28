@@ -5,27 +5,17 @@ import { store } from "@/store/store"
 
 // Axios instance for unprotected requests
 export const httpEntry = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
-    headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-    }
+    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL
 })
 
 // Axios instance for protected requests
 export const http = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
-    headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-    }
+    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL
 })
-
-const state = store.getState()
 
 http.interceptors.request.use(
     config => {
-        config.headers['Authorization'] = `Bearer ${state.auth.userToken}`;
+        config.headers['Authorization'] = `Bearer ${localStorage.getItem("token")}`;
         return config;
     },
     error => {
