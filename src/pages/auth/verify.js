@@ -6,7 +6,7 @@ import { useForm, zodResolver } from '@mantine/form'
 import { httpEntry } from "@/services/axios.service"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { parseError, showSuccess } from "@/services/notification.service"
+import { showError, showSuccess } from "@/services/notification.service"
 
 const cedarville = Cedarville_Cursive({ 
     subsets: ['latin'],
@@ -31,11 +31,12 @@ export default function Verify() {
 
     const handleSubmit = async (values) => {
         setLoading(true)
-        const payload = {
-            token: values.token,
-            email: localStorage.getItem('email')
-        }
-        httpEntry.post('/auth/verify_token', payload).then(response => {
+        try {
+            const payload = {
+                token: values.token,
+                email: localStorage.getItem('email')
+            }
+            await httpEntry.post('/auth/verify_token', payload)
             showSuccess('Token verified successfully!')
             const { action } = router.query
             if(action === 'change_password') {
@@ -43,18 +44,21 @@ export default function Verify() {
                 router.push('/auth/change_password')
             }
             else {
-                router.push('/auth/account_type')
+                router.push('/auth/login')
             }
-        }).catch(error => {
-            parseError(error)
-        }).finally(() => setLoading(false))
+        } catch (error) {
+            showError(error.message)
+        }
+        finally {
+            setLoading(false)
+        }
     }
 
 
     return (
         <>
             <div className="h-[100vh] w-full relative flex justify-center items-center">
-                <div className="w-[30%]">
+                <div className="lg:w-[30%] md:w-[50%] w-[90%]">
                     <div className='flex justify-center mb-4'>
                         <div className='w-[80px] h-[80px] rounded-full bg-gray-900'></div>
                     </div>

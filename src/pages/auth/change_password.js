@@ -6,7 +6,7 @@ import { useForm, zodResolver } from "@mantine/form"
 import { httpEntry } from "@/services/axios.service"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { parseError, showSuccess } from "@/services/notification.service"
+import { showError, showSuccess } from "@/services/notification.service"
 
 const cedarville = Cedarville_Cursive({ 
     subsets: ['latin'],
@@ -31,21 +31,25 @@ export default function ChangePassword () {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
-    const handleSubmit = (values) => {
+    const handleSubmit = async (values) => {
         setLoading(true)
-        const payload = {
-            email: localStorage.getItem('email'),
-            token: localStorage.getItem('token'),
-            password: values.password
-        }
-        httpEntry.put('/auth/change_password', payload).then(response => {
+        try {
+            const payload = {
+                email: localStorage.getItem('email'),
+                token: localStorage.getItem('token'),
+                password: values.password
+            }
+            await httpEntry.put('/auth/change_password', payload)
             showSuccess('Password updated successfully!')
             localStorage.removeItem('email')
             localStorage.removeItem('token')
             router.push('/auth/login')
-        }).catch(error => {
-            parseError(error)
-        }).finally(() => setLoading(false))
+        } catch (error) {
+            showError(error.message)
+        }
+        finally {
+            setLoading(false)
+        }
     }
 
     return (

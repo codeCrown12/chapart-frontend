@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { FiSettings, FiMenu, FiX, FiGrid, FiSun, FiPower, FiStar, FiUploadCloud } from "react-icons/fi"
+import { FiSettings, FiMenu, FiX, FiGrid, FiMessageCircle, FiPower, FiHeart, FiUploadCloud } from "react-icons/fi"
 import { Avatar, Button, Menu } from "@mantine/core"
 import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
@@ -36,24 +36,24 @@ export default function Navbar () {
                             <Link href="/" className="text-black no-underline">HOME</Link>
                         </li>
                         <li className="mr-4">
-                            <Link href="/gallery" className="text-black no-underline">GALLERY</Link>
+                            <Link href="/gallery" className="text-black no-underline">EXPLORE</Link>
                         </li>
                         <li className="mr-4">
-                            <Link href="/" className="text-black no-underline">SPOTLIGHT</Link>
+                            <Link href="/" className="text-black no-underline">FEED BACK</Link>
                         </li>
                         {
                             isLoggedIn ? (
                                 <>
                                     <li className="cursor-pointer mr-4">
-                                        <Menu trigger="hover" withArrow shadow="md" width={200}>
+                                        <Menu withArrow shadow="md" width={200}>
                                             <Menu.Target>
-                                                <Avatar color="yellow" radius={"xl"} size={40} src={ProfileImg} alt="profile image" />
+                                                <Avatar radius={"xl"} color="yellow" size={40} src={ProfileImg} alt="profile image" />
                                             </Menu.Target>
 
                                             <Menu.Dropdown>
-                                                <Menu.Item component={Link} href="/my/work" icon={<FiGrid size={14} />} >My work</Menu.Item>
-                                                <Menu.Item icon={<FiSun size={14} />}>Exhibit</Menu.Item>
-                                                <Menu.Item icon={<FiStar size={14} />}>Favorites</Menu.Item>
+                                                <Menu.Item icon={<FiGrid size={14} />} >My work</Menu.Item>
+                                                <Menu.Item className="font-normal" component={Link} href="/chat" icon={<FiMessageCircle size={14} />}>Messages</Menu.Item>
+                                                <Menu.Item icon={<FiHeart size={14} />}>Favorites</Menu.Item>
                                                 <Menu.Item icon={<FiSettings size={14} />}>Account settings</Menu.Item>
                                                 <Menu.Item onClick={handleLogOut} icon={<FiPower size={14} />}>Logout</Menu.Item>
                                             </Menu.Dropdown>
@@ -82,15 +82,15 @@ export default function Navbar () {
                             isLoggedIn && (
                                 <div className="flex items-center">
                                     <div className="cursor-pointer mr-4">
-                                        <Menu trigger="hover" withArrow shadow="md" width={200}>
+                                        <Menu withArrow shadow="md" width={200}>
                                             <Menu.Target>
-                                                <Avatar color="yellow" radius={"xl"} size={40} src={ProfileImg} alt="profile image" />
+                                                <Avatar radius={"xl"} color="yellow" size={40} src={ProfileImg} alt="profile image" />
                                             </Menu.Target>
 
                                             <Menu.Dropdown>
-                                                <Menu.Item component={Link} href="/my/work" icon={<FiGrid size={14} />} >My work</Menu.Item>
-                                                <Menu.Item icon={<FiSun size={14} />}>Exhibit</Menu.Item>
-                                                <Menu.Item icon={<FiStar size={14} />}>Favorites</Menu.Item>
+                                                <Menu.Item icon={<FiGrid size={14} />} >My work</Menu.Item>
+                                                <Menu.Item icon={<FiMessageCircle size={14} />}>Messages</Menu.Item>
+                                                <Menu.Item icon={<FiHeart size={14} />}>Favorites</Menu.Item>
                                                 <Menu.Item icon={<FiSettings size={14} />}>Account settings</Menu.Item>
                                                 <Menu.Item onClick={handleLogOut} icon={<FiPower size={14} />}>Logout</Menu.Item>
                                             </Menu.Dropdown>
@@ -124,10 +124,10 @@ export default function Navbar () {
                             <Link href="/" className="text-black no-underline">HOME</Link>
                         </li>
                         <li className="mb-4">
-                            <Link href="/gallery" className="text-black no-underline">GALLERY</Link>
+                            <Link href="/gallery" className="text-black no-underline">EXPLORE</Link>
                         </li>
                         <li className="mb-4">
-                            <Link href="/" className="text-black no-underline">SPOTLIGHT</Link>
+                            <Link href="/" className="text-black no-underline">FEED BACK</Link>
                         </li>
                         {
                             !isLoggedIn && (

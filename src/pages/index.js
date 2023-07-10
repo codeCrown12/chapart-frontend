@@ -9,18 +9,6 @@ import Link from "next/link"
 
 
 export default function Home() {
-  const artistsList = [0,1,2,3,4,5]
-  const artistsItems = artistsList.map(artist => 
-    <div key={artist} className="h-[120px] flex" style={{ border: '1px solid #ccc' }}>
-      <div className="w-[35%] bg-gray-300"></div>
-      <div className="w-[65%] p-4 flex items-center">
-        <div>
-          <h4>Mike Lambert</h4>
-          <p className="text-gray-600 text-[14px] italic">Painter, Lagos</p>
-        </div>
-      </div>
-    </div>
-  )
 
   return (
     <>
@@ -49,18 +37,7 @@ export default function Home() {
       </section>
 
       <section className="my-20">
-        <div className="lg:w-[90%] lg:px-0 px-5 w-full mx-auto">
-          <div className="mb-6">
-            <h2 className="font-semibold text-center">OUR ARTISTS</h2>
-            <Divider my="xs" label="Genius creators" className="italic" labelPosition="center" />
-          </div>
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-3">
-            { artistsItems }
-          </div>
-          <div className="flex justify-center mt-5">
-            <Button size="sm" variant="default">View More &raquo;</Button>
-          </div>
-        </div>
+        
       </section>
 
       <Footer/>

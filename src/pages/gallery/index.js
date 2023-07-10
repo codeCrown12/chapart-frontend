@@ -1,10 +1,10 @@
 import Navbar from '../../components/Navbar'
 import Footer from '@/components/Footer'
-import { TextInput, SegmentedControl, Loader } from '@mantine/core'
+import { TextInput, Select } from '@mantine/core'
 import ArtWork from '@/components/gallery/Artwork'
 import { httpEntry } from '@/services/axios.service'
 import { useEffect, useState } from 'react'
-import { parseError } from '@/services/notification.service'
+import { showError } from '@/services/notification.service'
 import Image from 'next/image'
 import Empty from '../../images/no-data.svg'
 import { FiSearch } from 'react-icons/fi'
@@ -13,7 +13,7 @@ import { Oval } from 'react-loader-spinner'
 
 export const getServerSideProps = async () => {
     const response = await httpEntry.get('/art/categories')
-    const categories = response.data.data.results
+    const categories = response.data.data
     return { props: { categories } }
 }
 
@@ -27,15 +27,19 @@ export default function Gallery ({ categories }) {
     const [category, setCategory] = useState("")
     const [loading, setLoading] = useState(true)
 
-    const getArtWorks = () => {
+    const getArtWorks = async () => {
         setLoading(true)
-        httpEntry.get(`/art/get?category=${category}&search=${search}`).then(response => {
+        try {
+            const response = await httpEntry.get(`/art/get?category=${category}&search=${search}`)
             const results = response.data.data.results
             const mappedResults = results.map(artWork => <ArtWork art_data={artWork} key={artWork.slug} />)
             setArtWorks(mappedResults)
-        }).catch(error => {
-            parseError(error)
-        }).finally(() => setLoading(false))
+        } catch (error) {
+            showError(error.message)
+        }
+        finally {
+            setLoading(false)
+        }
     }
 
     useEffect(() => {
@@ -45,16 +49,18 @@ export default function Gallery ({ categories }) {
     const DisplayArtWorks = () => {
         if (artWorks.length >= 1) {
             return (
-                <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 mt-5">
-                    { artWorks }
+                <div className="min-h-[100vh]">
+                    <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-3 mt-5">
+                        { artWorks }
+                    </div>
                 </div>
             )
         }
         else return (
-            <div className="flex justify-center items-center min-h-[300px]">
+            <div className="flex justify-center items-center min-h-[100vh]">
                 <div>
                     <div><Image src={Empty} className="w-[130px] h-[130px]" /></div>
-                    <p className="text-center mt-3"><strong>{ `"${search}"` }</strong> Not found.</p>
+                    <p className="text-center mt-3">{ search ? ( <strong>{ `"${search}"` }</strong> ) : "Art Works" } Not found</p>
                 </div>
             </div>
         )
@@ -67,17 +73,16 @@ export default function Gallery ({ categories }) {
             <section className="my-10">
                 <div className="lg:w-[90%] lg:px-0 px-5 w-full mx-auto">
                     <div className="lg:flex md:flex block items-center justify-between">
-                        <div className="mr-2">
-                            <SegmentedControl
+                        <div className="lg:w-[30%] md:w-[30%] w-full lg:mb-0 md:mb-0 mb-3">
+                            <Select
                                 value={category}
                                 onChange={setCategory}
                                 data={[{ label: "All", value: "" }, ...mappedCategories]}
                             />
                         </div>
-                        <div className="w-[30%]">
+                        <div className="lg:w-[30%] md:w-[30%] w-full">
                             <TextInput
                                 type="search"
-                                size="md"
                                 value={search}
                                 onChange={(event) => setSearch(event.currentTarget.value)}
                                 placeholder="search art title, description..."
@@ -88,9 +93,9 @@ export default function Gallery ({ categories }) {
                     <div className="mt-10">
                         { 
                             loading ? (
-                                <div className="flex justify-center items-center min-h-[300px]">
+                                <div className="flex justify-center min-h-[100vh]">
                                     <Oval 
-                                        color="#000"
+                                        color="#fcba03"
                                         secondaryColor="#ccc"
                                     />
                                 </div>

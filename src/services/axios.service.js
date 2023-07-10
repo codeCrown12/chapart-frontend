@@ -13,13 +13,22 @@ export const http = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_URL
 })
 
+httpEntry.interceptors.response.use(
+    response => {
+        return response
+    },
+    error => {
+        throw new Error(error.response.data.message)
+    }
+)
+
 http.interceptors.request.use(
     config => {
         config.headers['Authorization'] = `Bearer ${localStorage.getItem("token")}`;
         return config;
     },
     error => {
-        return Promise.reject(error);
+        return Promise.reject(error)
     }
 )
 
@@ -27,7 +36,7 @@ http.interceptors.response.use(
     response => {
         return response
     },
-    async (error) => {
+    error => {
         if(error.response.status === 401) {
             notifications.show({
                 color: 'red',
@@ -37,6 +46,6 @@ http.interceptors.response.use(
             store.dispatch(logoutUser())
             window.location.href = '/auth/login'
         }
-        return Promise.reject(error)
+        throw new Error(error.response.data.message)
     }
 )

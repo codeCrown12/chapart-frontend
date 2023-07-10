@@ -6,7 +6,7 @@ import Image from 'next/image';
 import designerImage from '../../images/designer.svg'
 import { FiArrowRight, FiPlusCircle, FiXCircle } from 'react-icons/fi';
 import { useState } from 'react';
-import { parseError, showError } from '@/services/notification.service';
+import { showError } from '@/services/notification.service';
 import { z } from 'zod'
 import { useForm, zodResolver } from "@mantine/form"
 import { http, httpEntry } from '@/services/axios.service';
@@ -15,7 +15,7 @@ import { capitalizeFirst } from '@/services/utils.service';
 
 export const getServerSideProps = async () => {
     const response = await httpEntry.get('/art/categories')
-    const categories = response.data.data.results
+    const categories = response.data.data
     return { props: { categories } }
 }
 
@@ -111,7 +111,7 @@ export default function Upload({ categories }) {
             }
             else showError("You must upload at least one image!")
         } catch (error) {
-            parseError(error)
+            showError(error.message)
         }
         finally {
             setLoading(false)

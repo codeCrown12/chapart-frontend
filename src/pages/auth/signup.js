@@ -8,7 +8,7 @@ import { useForm, zodResolver } from "@mantine/form"
 import { httpEntry } from "@/services/axios.service"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { parseError, showSuccess } from "@/services/notification.service"
+import { showError, showSuccess } from "@/services/notification.service"
 
 const cedarville = Cedarville_Cursive({ 
     subsets: ['latin'],
@@ -41,14 +41,18 @@ export default function SignUp() {
 
     const handleSubmit = async (values) => {
         setLoading(true)
-        const payload = values
-        httpEntry.post('/auth/signup', payload).then(response => {
+        try {
+            const payload = values
+            await httpEntry.post('/auth/signup', payload)
             showSuccess('Signup successful!')
             localStorage.setItem('email', payload.email)
             router.push('/auth/verify')
-        }).catch(error => {
-            parseError(error)
-        }).finally(() => setLoading(false))
+        } catch (error) {
+            showError(error.message)
+        }
+        finally {
+            setLoading(false)
+        }
     }
 
     return(

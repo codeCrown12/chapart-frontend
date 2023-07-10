@@ -56,7 +56,8 @@ export default function App({ Component, pageProps }) {
               "#090909"
             ],
           },
-          primaryColor: 'brand'
+          primaryColor: 'brand',
+          fontFamily: raleway.style.fontFamily
         }}
       >
         <RouterTransition />

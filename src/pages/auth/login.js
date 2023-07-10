@@ -8,7 +8,7 @@ import { useForm, zodResolver } from "@mantine/form"
 import { httpEntry } from "@/services/axios.service"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { parseError, showSuccess } from "@/services/notification.service"
+import { showError, showSuccess } from "@/services/notification.service"
 import { useDispatch } from "react-redux"
 import { loginUser } from "@/store/slices/authSlice"
 
@@ -36,23 +36,27 @@ export default function Login() {
     const router = useRouter()
     const dispatch = useDispatch()
 
-    const handleSubmit = (values) => {
+    const handleSubmit = async (values) => {
         setLoading(true)
-        const payload = values
-        httpEntry.post('/auth/login', payload).then(response => {
-            showSuccess('Login successful')
+        try {
+            const payload = values
+            const response = await httpEntry.post('/auth/login', payload)
             dispatch(loginUser({
                 userData: response.data.data.user,
                 userToken: response.data.data.token
             }))
+            showSuccess('Login successful')
             router.push('/')
-        }).catch(error => {
-            parseError(error)
-            if(error.response.data.error.toLowerCase() === 'email not verified') {
+        } catch (error) {
+            showError(error.message)
+            if(error.message.toLowerCase() === 'email not verified') {
                 localStorage.setItem('email', payload.email)
                 router.push('/auth/verify')
             }
-        }).finally(() => setLoading(false))
+        }
+        finally {
+            setLoading(false)
+        }
     }
 
     return (
