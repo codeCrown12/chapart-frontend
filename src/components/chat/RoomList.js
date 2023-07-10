@@ -8,23 +8,42 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 
 
-function RoomListItem({ details }) {
+function RoomListItem({ details, socket }) {
 
     const user = useSelector((state) => state.auth.userData)
     const otherUser = Array.from(details.users).filter(member => {
         return member.id != user.id
     })[0]
     const router = useRouter()
+    const [mostRecentMessage, setMostRecentMessage] = useState(details.messages.length >= 1 ? details.messages[0].message : "")
+    const [newMessage, setNewMessage] = useState("")
+
+    useEffect(() => {
+        socket.current.on("msg-sent", (msg) => {
+            if(msg.room_id == details.slug) {
+                setNewMessage(msg.message)
+            }
+        })
+        socket.current.on("msg-received", (msg) => {
+            if(msg.room_id == details.slug) {
+                setNewMessage(msg.message)
+            }
+        })
+    }, [])
+
+    useEffect(() => {
+        newMessage && setMostRecentMessage(newMessage)
+    }, [newMessage])
 
     return (
         <>
             <UnstyledButton component={Link} href={`/chat/${details.slug}`} className={`p-3 block w-full ${router.query.slug && router.query.slug[0] == details.slug ? 'bg-gray-100 hover:bg-gray-100' : 'hover:bg-gray-50'}`}>
-                <div className="flex items-center gap-2">
+                <div className="flex w-full items-center gap-2">
                     <Avatar src={otherUser.profile_image} radius={100} size={45} color="yellow" />
-                    <div>
+                    <div className="w-[80%]">
                         <p><span className="text-[14px] font-semibold">{ `${capitalizeFirst(otherUser.firstname)} ${capitalizeFirst(otherUser.lastname)}` }</span><small className="text-[11px] text-gray-400 ml-[3px]">({ capitalizeFirst(otherUser.username) })</small></p>
-                        <div className="w-[90%]">
-                            <Text truncate className="text-[12px] text-gray-600">{ details.messages[0].message }</Text>
+                        <div>
+                            <Text truncate className="text-[12px] text-gray-600">{ mostRecentMessage }</Text>
                         </div>
                     </div>
                 </div>
@@ -34,7 +53,7 @@ function RoomListItem({ details }) {
 }
 
 
-export default function RoomList() {
+export default function RoomList({ socket }) {
 
     const [rooms, setRooms] = useState({ list: [], cursor: null, limit: 50 })
     const [loading, setLoading] = useState(false)
@@ -45,7 +64,7 @@ export default function RoomList() {
             const response = await http.get(`/chat/room/get${rooms.cursor ? `?cursor=${rooms.cursor}` : ''}`)
             setRooms({
                 ...rooms,
-                list: response.data.data.results,
+                list: rooms.cursor ? [...rooms.list, response.data.data.results] : response.data.data.results,
                 limit: response.data.data.limit,
                 cursor: response.data.cursor
             })
@@ -71,9 +90,15 @@ export default function RoomList() {
                 )
             }
             {
-                rooms.list.map(room => (
-                    <RoomListItem key={room.id} details={room} />
-                ))
+                rooms.list.length >= 1 ? (
+                    rooms.list.map(room => (
+                        <RoomListItem socket={socket} key={room.id} details={room} />
+                    ))
+                ) : (
+                    <div className="h-full flex justify-center items-center">
+                        <p className="text-[15px]">No messages here</p>
+                    </div>
+                )
             }
             {
                 rooms.cursor && (

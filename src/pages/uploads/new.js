@@ -266,7 +266,7 @@ export default function Upload({ categories }) {
                                             <p>You've successfully shared your art</p>
                                         </div>
                                         <div className="mt-3">
-                                            <Button component={Link} href="/my/work" rightIcon={<FiArrowRight/>} size="sm">Finish</Button>
+                                            <Button component={Link} href="/gallery" rightIcon={<FiArrowRight/>} size="sm">Finish</Button>
                                         </div>
                                     </div>
                                 </Modal>

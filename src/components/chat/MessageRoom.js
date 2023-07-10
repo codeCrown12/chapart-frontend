@@ -1,14 +1,14 @@
 import { UnstyledButton, Group, Avatar, Loader } from "@mantine/core"
 import { FiMoreHorizontal, FiSend, FiSmile } from "react-icons/fi"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { http } from "@/services/axios.service"
 import { showError } from "@/services/notification.service"
 import { useRouter } from "next/router"
 import { useSelector } from 'react-redux'
 import { capitalizeFirst } from "@/services/utils.service"
+import { v4 as uuidv4 } from "uuid";
 
-
-export default function MessageRoom() {
+export default function MessageRoom({ socket }) {
 
     const [loading, setLoading] = useState(false)
     const [messages, setMessages] = useState({ list: [], cursor: null, limit: 50 })
@@ -16,6 +16,8 @@ export default function MessageRoom() {
     const router = useRouter()
     const user = useSelector((state) => state.auth.userData)
     const [message, setMessage] = useState("")
+    const [arrivalMessage, setArrivalMessage] = useState(null)
+    const scrollRef = useRef()
 
     const fetchMessages = async () => {
         setLoading(true)
@@ -40,23 +42,64 @@ export default function MessageRoom() {
 
     useEffect(() => {
         if(router.query.slug) {
+            socket.current.emit("join-room", router.query.slug[0])
             fetchMessages()
         }
     }, [router.query.slug])
 
     const handleSendMessage = async() => {
         try {
-            const payload = {
-                message,
-                room_id: router.query.slug[0]
+            if(message != "") {
+                socket.current.emit("send-msg", {
+                    sender_id: user.slug,
+                    message,
+                    room_id: router.query.slug[0],
+                    to: otherUser.id
+                })
+                const msgs = [...messages.list]
+                msgs.push({
+                    sender_id: user.slug,
+                    message,
+                    room_id: router.query.slug[0]
+                })
+                setMessages({
+                    ...messages,
+                    list: msgs
+                })
+                setMessage("")
+
+                await http.post('/chat/message/send', {
+                    message,
+                    room_id: router.query.slug[0]
+                })
             }
-            const response = await http.post('/chat/message/send', payload)
-            console.log(response.data)
-            setMessage("")
         } catch (error) {
             showError(error.message)
         }
     }
+
+    useEffect(() => {
+        if(router.query.slug) {
+            socket.current.on("msg-received", (msg) => {
+                setArrivalMessage(msg)
+            })
+        }
+    }, [])
+
+    useEffect(() => {
+        if(arrivalMessage) {
+            const msgs = [...messages.list]
+            msgs.push(arrivalMessage)
+            setMessages({
+                ...messages,
+                list: msgs
+            })
+        }
+      }, [arrivalMessage])
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages])
 
     return (
         <>
@@ -91,7 +134,7 @@ export default function MessageRoom() {
                                 <div className="h-[76%] w-full p-5 overflow-y-auto">
                                     {
                                         messages.list.map(message => (
-                                            <div key={message.id}>
+                                            <div ref={scrollRef} key={uuidv4()}>
                                                 {
                                                     message.sender_id != user.slug ? (
                                                         <div className="flex gap-2 mb-4">

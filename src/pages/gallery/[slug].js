@@ -25,7 +25,7 @@ export default function ArtWorkDetails() {
             setSelectedImage(result.images[0])
             setDetails(result)
             const responseTwo = await httpEntry.get(`/art/user/${result.author.slug}?limit=4`)
-            const results = responseTwo.data.data
+            const results = responseTwo.data.data.results
             setMoreWorks(results.filter(item => item.slug != result.slug))
         } catch (error) {
             showError(error.message)
@@ -116,26 +116,32 @@ export default function ArtWorkDetails() {
                                         </List>
                                     </div>
                                 </div>
-                                <Divider variant="dashed" className="my-10" />
-                                <div>
-                                    <h4 className="font-semibold mb-3">More by { details.author.username }</h4>
-                                    <div className="overflow-x-auto scrollbar-hide">
-                                        <div className="flex gap-3">
-                                            {
-                                                moreWorks.map(item => (
-                                                    <div>
-                                                        <div>
-                                                            <Link href={`/gallery/${item.slug}`} key={item.id}>
-                                                                <img src={item.images[0]} className="bg-gray-300 h-[180px] w-[220px] rounded-md object-cover" />
-                                                            </Link>
-                                                        </div>
-                                                        <p><Link className="no-underline hover:underline text-black text-[14px]" href={`/gallery/${item.slug}`}>{ capitalizeFirst(item.title) }</Link></p>
+                                {
+                                    moreWorks.length >= 1 && (
+                                        <>
+                                            <Divider variant="dashed" className="my-10" />
+                                            <div>
+                                                <h4 className="font-semibold mb-3">More by { details.author.username }</h4>
+                                                <div className="overflow-x-auto scrollbar-hide">
+                                                    <div className="flex gap-3">
+                                                        {
+                                                            moreWorks.map(item => (
+                                                                <div>
+                                                                    <div>
+                                                                        <Link href={`/gallery/${item.slug}`} key={item.id}>
+                                                                            <img src={item.images[0]} className="bg-gray-300 h-[180px] w-[220px] rounded-md object-cover" />
+                                                                        </Link>
+                                                                    </div>
+                                                                    <p><Link className="no-underline hover:underline text-black text-[14px]" href={`/gallery/${item.slug}`}>{ capitalizeFirst(item.title) }</Link></p>
+                                                                </div>
+                                                            ))
+                                                        }
                                                     </div>
-                                                ))
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    )
+                                }
                             </>
                         )
                     }

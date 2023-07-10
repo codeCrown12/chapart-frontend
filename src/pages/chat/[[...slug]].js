@@ -2,15 +2,26 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import { Button, UnstyledButton } from "@mantine/core"
 import { FiMessageCircle, FiEdit } from "react-icons/fi"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { useSelector } from "react-redux"
 import RoomList from "@/components/chat/RoomList"
 import MessageRoom from "@/components/chat/MessageRoom"
 import { useRouter } from "next/router"
+import { io } from "socket.io-client"
 
 export default function Chat() {
 
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false)
     const router = useRouter()
+    const user = useSelector((state) => state.auth.userData)
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
+    const socket = useRef()
+
+    useEffect(() => {
+        if(isLoggedIn) {
+            socket.current = io('http://localhost:3000')
+            socket.current.emit("add-user", user.id)
+        }
+    }, [])
 
     return (
         <>
@@ -26,13 +37,13 @@ export default function Chat() {
                         </UnstyledButton>
                     </div>
                     <div className="h-[90%] overflow-y-auto">
-                        <RoomList />
+                        <RoomList socket={socket} />
                     </div>
                 </div>
 
                 {
                     router.query.slug ? (
-                        <MessageRoom />
+                        <MessageRoom socket={socket} />
                     ) : (
                         <div className="w-[70%] h-full flex flex-col justify-center items-center">
                             <div className="h-[100px] w-[100px] flex justify-center items-center rounded-full bg-gray-800">
